@@ -1,0 +1,192 @@
+body {
+  font-family: "Poppins", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(180deg, #0066cc, #003366);
+  color: #fff;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 850px;
+  margin: 40px auto;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border-radius: 15px;
+  padding: 40px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.3);
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header img {
+  width: 90px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+h1 {
+  text-align: center;
+  color: #ffffff;
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+p {
+  text-align: center;
+  color: #cce0ff;
+  margin-bottom: 25px;
+}
+
+ul {
+  list-style: none;
+  text-align: center;
+  padding: 0;
+  color: #cce0ff;
+}
+
+.question {
+  margin: 15px 0;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.question p {
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+label {
+  display: inline-block;
+  background: #3399ff;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+
+
+input[type="radio"] {
+  margin-right: 5px;
+}
+
+button {
+  display: block;
+  margin: 25px auto;
+  padding: 12px 40px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  background-color: #3399ff;
+  color: #fff;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #66b2ff;
+}
+
+.results {
+  margin-top: 30px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: #ffffff;
+}
+
+.results h2 {
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.results div {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+#info-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px; /* 🔹 Espaciado entre cada campo */
+  margin-bottom: 35px; /* 🔹 Espacio inferior antes del test */
+  position: relative;
+  z-index: 2;
+  padding: 10px 0; /* 🔹 Espacio vertical interno */
+}
+
+#info-form label {
+  font-weight: bold;
+  color: #cce0ff;
+  margin-bottom: 4px; /* 🔹 Espacio entre etiqueta e input */
+  width: 50%;
+  margin: 0%;
+  
+}
+
+#info-form label:hover {
+  background: #66b2ff;
+}
+
+#info-form input {
+  display:block; /* 🔹 cada elemento ocupa toda la línea */
+  width: 53%;
+  padding: 12px 15px;
+  height: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #003366;
+  font-size: 16px;
+  outline: none;
+  box-sizing: border-box;
+  line-height: normal;
+  transition: all 0.3s ease;
+}
+
+#info-form input::placeholder {
+  color: #6b8fbf;
+  opacity: 1;
+}
+
+#info-form input:focus {
+  background-color: #ffffff;
+  border-color: #66b2ff;
+  box-shadow: 0 0 5px rgba(102, 178, 255, 0.8);
+}
+
+#test-form input {
+  display:block;
+  width:100%;
+}
+
+
+#test-form label {
+margin: 5px, 10px;
+width: 27%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
