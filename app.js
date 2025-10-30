@@ -58,12 +58,14 @@ function enviarResultados(nombre, correo, telefono, resultados) {
   };
 
   // 🔹 Envío al ministerio
-  emailjs.send("service_m7i35iw", "plantilla_admin", paramsAdmin);
-
-  // 🔹 Envío al participante
-  emailjs.send("service_m7i35iw", "plantilla_usuario", paramsUsuario)
+  emailjs.send("service_m7i35iw", "template_3hymrgx", paramsAdmin);
+  emailjs.send("service_m7i35iw", "template_kh5rb49", paramsUsuario);
     .then(() => alert("✅ Resultado enviado a ambos correos."))
-    .catch(error => alert("❌ Error al enviar: " + error));
+    .catch(error => {
+  console.error("❌ Error completo:", error);
+  alert("❌ Error al enviar: " + JSON.stringify(error));
+});
+
 }
 
 
@@ -89,6 +91,7 @@ enviarResultados(nombre, correo, telefono, resultados);
 }
 
 iniciar();
+
 
 
 
