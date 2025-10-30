@@ -52,7 +52,7 @@ function enviarResultados(nombre, correo, telefono, resultados) {
     ${cuerpo}
   `;
 
-  fetch("https://formsubmit.co/ajax/gsanabria0803@gmail.com", {
+  fetch("https://formsubmit.co/ajax/discipuladomdf2025@gmail.com", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -89,6 +89,7 @@ enviarResultados(nombre, correo, telefono, resultados);
 }
 
 iniciar();
+
 
 
 
