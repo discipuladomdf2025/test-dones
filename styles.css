@@ -175,6 +175,44 @@ margin: 5px, 10px;
 width: 27%;
 }
 
+/* =========================
+   📱 AJUSTES PARA MÓVILES
+   ========================= */
+@media (max-width: 600px) {
+  .question {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+  .question p {
+    margin-bottom: 8px;
+  }
+
+  .question label {
+  flex: 1 1 30%;
+  text-align: center;
+  margin: 4px;
+}
+
+  .question input[type="radio"] {
+    margin-right: 8px;
+  }
+
+  button#submit {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  header img {
+    width: 80px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+}
 
 
 
