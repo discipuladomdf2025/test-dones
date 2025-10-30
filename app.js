@@ -70,8 +70,6 @@ function enviarResultados(nombre, correo, telefono, resultados) {
     alert("❌ Error al enviar: " + JSON.stringify(error));
   });
 
-});
-
 }
 
 
@@ -97,6 +95,7 @@ enviarResultados(nombre, correo, telefono, resultados);
 }
 
 iniciar();
+
 
 
 
