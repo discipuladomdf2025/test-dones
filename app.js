@@ -43,37 +43,28 @@ function mostrarResultados(resultados) {
 
 function enviarResultados(nombre, correo, telefono, resultados) {
   const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
-  const mensaje = `
-Nombre: ${nombre}
-Correo: ${correo}
-Teléfono: ${telefono}
 
-Resultados del test:
-${cuerpo}
-`;
+  const paramsAdmin = {
+    nombre: nombre,
+    correo: correo,
+    telefono: telefono,
+    resultados: cuerpo
+  };
 
-  fetch("https://formsubmit.co/ajax/discipuladomdf2025@gmail.com", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "Accept": "application/json" },
-    body: JSON.stringify({
-      name: nombre, // 🔹 mejor usar 'name' y 'email' porque son los que FormSubmit reconoce nativamente
-      email: correo,
-      message: mensaje,
-      _subject: `🕊️ Resultado del Test de Dones - ${nombre}`,
-      _cc: correo, // 🔹 no necesitas las comillas ni el espacio final
-      _template: "box"
-    })
-  })
-  .then(response => {
-    if (response.ok) {
-      alert("✅ Resultado enviado con éxito!");
-    } else {
-      alert("❌ Error al enviar el correo. Verifica tu conexión o el correo configurado.");
-    }
-  })
-  .catch(err => alert("❌ Error: " + err));
+  const paramsUsuario = {
+    nombre: nombre,
+    correo: correo,
+    resultados: cuerpo
+  };
+
+  // 🔹 Envío al ministerio
+  emailjs.send("service_m7i35iw", "plantilla_admin", paramsAdmin);
+
+  // 🔹 Envío al participante
+  emailjs.send("service_m7i35iw", "plantilla_usuario", paramsUsuario)
+    .then(() => alert("✅ Resultado enviado a ambos correos."))
+    .catch(error => alert("❌ Error al enviar: " + error));
 }
-
 
 
 
@@ -98,6 +89,7 @@ enviarResultados(nombre, correo, telefono, resultados);
 }
 
 iniciar();
+
 
 
 
