@@ -61,7 +61,7 @@ function enviarResultados(nombre, correo, telefono, resultados) {
   emailjs.send("service_m7i35iw", "plantilla_admin", paramsAdmin);
 
   // 🔹 Envío al participante
-  emailjs.send("service_m7i35iw", "plantilla_usuario", paramsUsuario)
+  emailjs.send("template_kh5rb49", "plantilla_usuario", paramsUsuario)
     .then(() => alert("✅ Resultado enviado a ambos correos."))
     .catch(error => alert("❌ Error al enviar: " + error));
 }
@@ -89,6 +89,7 @@ enviarResultados(nombre, correo, telefono, resultados);
 }
 
 iniciar();
+
 
 
 
