@@ -61,7 +61,8 @@ function enviarResultados(nombre, correo, telefono, resultados) {
   .then(() => {
     // Guarda los resultados en Google Sheets
     guardarEnGoogleSheets(nombre, correo, telefono, resultados);
-
+    // Guarda los resultados en localStorage antes de redirigir
+    localStorage.setItem("ultimo_resultado", JSON.stringify({ resultados: cuerpo }));
     // Redirige a la nueva página
     window.location.href = "gracias.html";
   })
@@ -100,7 +101,7 @@ async function iniciar() {
     
     const formData = new FormData(form);
     const resultados = calcularResultados(data, formData);
-    mostrarResultados(resultados);
+    //mostrarResultados(resultados);
     
 
 
@@ -114,7 +115,7 @@ iniciar();
 function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
   const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
 
-  fetch("https://script.google.com/macros/s/AKfycbzOlDRGnj8a0qfExOUIQglTnbMke2xgU9dqrMLSOMSn5EN9ob1qaljrmyXZifxmZjdiAQ/exec", {
+  fetch("https://script.google.com/macros/s/AKfycby_9Gjapu5U6jwrHDr0jvNB5GMDSZaD9-p4aVW4He4jbAAKnqdhxwRWz2XxNr-UZMOVkQ/exec", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -134,5 +135,6 @@ function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
   })
   .catch(err => console.error("❌ Error al guardar en Sheets:", err));
 }
+
 
 
