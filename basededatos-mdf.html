@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Resultados - Mundo de Fe Costa Rica</title>
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+  <!-- ✅ Importar Firebase (v9 modular compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
   <style>
   body {
@@ -27,7 +27,7 @@
     text-shadow: 0 2px 10px rgba(0,0,0,0.3);
   }
 
-  .registros-container {
+  #lista {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -120,7 +120,7 @@
       font-size: 0.8rem;
     }
   }
-</style>
+  </style>
 </head>
 
 <body>
@@ -129,7 +129,7 @@
   <div id="lista"></div>
 
   <script>
-    // ✅ Firebase Config
+    // ✅ Configuración Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyAc05jP3k8_Ik5qnwIrqSbtJBT9FpoXtAM",
       authDomain: "discipuladomdf.firebaseapp.com",
@@ -141,60 +141,59 @@
     };
 
     // Inicializar Firebase
-    const app = firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const lista = document.getElementById("lista");
 
-    // 🔹 Función para cargar los datos
+    // 🔹 Cargar datos en tiempo real
     function cargarDatos() {
-      firebase.database().ref("respuestas").once("value")
-        .then(snapshot => {
-          lista.innerHTML = ""; // Limpiar antes de mostrar
-          const data = snapshot.val();
-          if (!data) {
-            lista.innerHTML = "<p>No hay resultados registrados aún.</p>";
-            return;
-          }
+      const ref = db.ref("respuestas");
 
-          const registros = Object.entries(data).sort((a, b) => new Date(b[1].fecha) - new Date(a[1].fecha));
+      ref.on("value", (snapshot) => {
+        lista.innerHTML = "";
+        const data = snapshot.val();
 
-          registros.forEach(([id, r]) => {
-            const div = document.createElement("div");
-            div.classList.add("registro");
-            div.innerHTML = `
-              <button class="btn-borrar" onclick="borrarRegistro('${id}')">🗑 Borrar</button>
-              <h3>🧍 ${r.nombre}</h3>
-              <p>📧 <strong>${r.correo}</strong></p>
-              <p>📱 ${r.telefono}</p>
-              <p>🕒 ${new Date(r.fecha).toLocaleString()}</p>
-              <p>💬 <strong>Resultados:</strong></p>
-              <pre>${r.resultados}</pre>
-            `;
-            lista.appendChild(div);
-          });
-        })
-        .catch(err => {
-          lista.innerHTML = "<p>Error al cargar los resultados.</p>";
-          console.error("❌ Error al leer Firebase:", err);
+        if (!data) {
+          lista.innerHTML = "<p>No hay resultados registrados aún.</p>";
+          return;
+        }
+
+        const registros = Object.entries(data)
+          .sort((a, b) => new Date(b[1].fecha) - new Date(a[1].fecha));
+
+        registros.forEach(([id, r]) => {
+          const div = document.createElement("div");
+          div.classList.add("registro");
+          div.innerHTML = `
+            <button class="btn-borrar" onclick="borrarRegistro('${id}')">🗑 Borrar</button>
+            <h3>🧍 ${r.nombre || 'Sin nombre'}</h3>
+            <p>📧 <strong>${r.correo || 'Sin correo'}</strong></p>
+            <p>📱 ${r.telefono || 'Sin teléfono'}</p>
+            <p>🕒 ${r.fecha ? new Date(r.fecha).toLocaleString() : 'Sin fecha'}</p>
+            <p>💬 <strong>Resultados:</strong></p>
+            <pre>${r.resultados || 'Sin resultados'}</pre>
+          `;
+          lista.appendChild(div);
         });
+      }, (error) => {
+        console.error("❌ Error al leer Firebase:", error);
+        lista.innerHTML = "<p>Error al cargar los resultados.</p>";
+      });
     }
 
-    // 🔹 Función para borrar registro
+    // 🔹 Eliminar registro
     window.borrarRegistro = function (id) {
       if (confirm("¿Seguro que deseas borrar este registro?")) {
-        firebase.database().ref("respuestas/" + id).remove()
+        db.ref("respuestas/" + id).remove()
           .then(() => {
             alert("✅ Registro eliminado correctamente");
-            cargarDatos();
           })
           .catch(err => alert("❌ Error al eliminar: " + err));
       }
     };
 
-    // 🔹 Cargar al iniciar
+    // 🔹 Iniciar carga
     cargarDatos();
   </script>
 </body>
 </html>
-
-      
