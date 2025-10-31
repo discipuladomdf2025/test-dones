@@ -21,21 +21,23 @@
       <li>2 — Me describe mucho</li>
     </ul>
 
-  <form id="test-form">
-  <label>Nombre:</label>
-  <input type="text" id="nombre" name="nombre" required>
+    <!-- ✅ Formulario de información -->
+    <form id="info-form">
+      <label>Nombre:</label>
+      <input type="text" id="nombre" name="nombre" required>
 
-  <label>Correo electrónico:</label>
-  <input type="email" id="correo" name="correo" required>
+      <label>Correo electrónico:</label>
+      <input type="email" id="correo" name="correo" required>
 
-  <label>Número de teléfono:</label>
-  <input type="tel" id="telefono" name="telefono" required>
+      <label>Número de teléfono:</label>
+      <input type="tel" id="telefono" name="telefono" required>
+    </form>
 
-  <hr>
+    <hr>
 
-  <div id="preguntas"></div>
-  <button type="submit" id="submit">Ver y Enviar Resultados</button>
-</form>
+    <!-- ✅ Formulario del test -->
+    <form id="test-form"></form>
+    <button id="submit">Ver y Enviar Resultados</button>
 
     <div id="results" class="results"></div>
 
@@ -44,48 +46,34 @@
     </footer>
   </div>
 
+  <!-- 🔹 EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<script>
-  (function(){
-    emailjs.init("13cKDZbvcTVL3V3xe");
-    console.log("✅ EmailJS inicializado");
-  })();
-</script>
+  <script>
+    (function(){
+      emailjs.init("13cKDZbvcTVL3V3xe");
+      console.log("✅ EmailJS inicializado");
+    })();
+  </script>
   
-<!-- Firebase compat (NO modulares) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <!-- 🔹 Firebase (versión compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyAc05jP3k8_Ik5qnwIrqSbtJBT9FpoXtAM",
-    authDomain: "discipuladomdf.firebaseapp.com",
-    databaseURL: "https://discipuladomdf-default-rtdb.firebaseio.com",
-    projectId: "discipuladomdf",
-    storageBucket: "discipuladomdf.firebasestorage.app",
-    messagingSenderId: "21094891349",
-    appId: "1:21094891349:web:be1a4483b7737c70cb39dc"
-  };
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAc05jP3k8_Ik5qnwIrqSbtJBT9FpoXtAM",
+      authDomain: "discipuladomdf.firebaseapp.com",
+      databaseURL: "https://discipuladomdf-default-rtdb.firebaseio.com",
+      projectId: "discipuladomdf",
+      storageBucket: "discipuladomdf.firebasestorage.app",
+      messagingSenderId: "21094891349",
+      appId: "1:21094891349:web:be1a4483b7737c70cb39dc"
+    };
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-</script>
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+  </script>
 
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
