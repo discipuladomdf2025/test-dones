@@ -253,6 +253,48 @@ width: 27%;
     padding: 8px 0;
   }
 }
+/* ======== Corrección para mantener 0-1-2 en una sola fila ======== */
+.question {
+  display: flex;
+  flex-wrap: nowrap;         /* ❌ evita que el 2 se baje */
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;                  /* pequeño espacio entre ellos */
+}
+
+.question label {
+  flex: 1 1 0;               /* los tres ocupan el mismo ancho */
+  text-align: center;
+  background: #f3f5ff;
+  border: 1px solid #d2d8ff;
+  border-radius: 10px;
+  padding: 10px 0;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.question label:hover {
+  background: #e2e7ff;
+}
+
+.question input[type="radio"] {
+  margin-right: 6px;
+}
+
+/* ======== Ajuste responsivo para móvil ======== */
+@media (max-width: 600px) {
+  .question {
+    gap: 6px;
+  }
+
+  .question label {
+    font-size: 0.9rem;
+    padding: 8px 0;
+  }
+}
+
+
 
 
 
