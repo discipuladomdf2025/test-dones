@@ -17,7 +17,7 @@ body {
   backdrop-filter: blur(8px);
   border-radius: 15px;
   padding: 40px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 25px rgba(0,0,0,0.3);
 }
 
 header {
@@ -57,27 +57,28 @@ ul {
 #info-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
   margin-bottom: 35px;
   position: relative;
-  z-index: 2;
   padding: 10px 0;
 }
 
 #info-form label {
   font-weight: bold;
   color: #cce0ff;
+  margin-bottom: 4px;
 }
 
 #info-form input {
   display: block;
-  width: 60%;
-  padding: 12px 15px;
+  width: 50%;
+  padding: 8px 12px;
+  height: 28px;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.6);
   background-color: rgba(255, 255, 255, 0.9);
   color: #003366;
-  font-size: 16px;
+  font-size: 15px;
   outline: none;
   transition: all 0.3s ease;
 }
@@ -93,7 +94,7 @@ ul {
    ========================= */
 .question {
   margin: 20px 0;
-  padding: 15px;
+  padding: 20px;
   background: rgba(255, 255, 255, 0.08);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -106,42 +107,32 @@ ul {
   line-height: 1.5;
 }
 
-/* Contenedor horizontal de los tres botones */
-.question-options {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-/* Estilo de cada opción (0,1,2) */
+/* Opciones del test */
 .question label {
-  flex: 1;
   display: block;
   text-align: center;
-  font-weight: 600;
-  color: #ffffff;
   background: #2e74b5; /* Azul institucional */
+  color: #fff;
   border-radius: 12px;
   padding: 12px 0;
+  margin: 6px 0; /* 🔹 espacio entre cada opción */
+  font-weight: 600;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.15);
   transition: all 0.3s ease;
+  border: 1px solid rgba(255,255,255,0.2);
 }
-
-/* Variante alternativa (café suave): cambia #2e74b5 por este para probarlo */
-/* background: #b59b7a;  color: #fff;  border-color: #a48b68; */
 
 .question label:hover {
   background: #66b2ff;
 }
 
 .question input[type="radio"] {
-  display: none;
+  margin-right: 8px;
 }
 
 .question input[type="radio"]:checked + label {
   background: #66b2ff;
-  box-shadow: 0 0 10px rgba(102, 178, 255, 0.7);
+  box-shadow: 0 0 8px rgba(102, 178, 255, 0.7);
 }
 
 /* =========================
@@ -183,7 +174,7 @@ button:hover {
 
 .results div {
   padding: 8px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
 }
 
 /* =========================
@@ -195,7 +186,9 @@ button:hover {
   }
 
   #info-form input {
-    width: 100%;
+    width: 90%;
+    height: 24px;
+    font-size: 14px;
   }
 
   .question {
@@ -204,17 +197,12 @@ button:hover {
 
   .question p {
     font-size: 0.95rem;
-    text-align: left;
-  }
-
-  .question-options {
-    flex-direction: row;
-    gap: 8px;
   }
 
   .question label {
-    font-size: 0.9rem;
     padding: 10px 0;
+    font-size: 0.9rem;
+    margin: 8px 0; /* 🔹 espacio entre opciones en móvil */
   }
 
   button#submit {
@@ -222,4 +210,3 @@ button:hover {
     font-size: 16px;
   }
 }
-
