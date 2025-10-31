@@ -31,35 +31,26 @@ function calcularResultados(data, formData) {
     .sort((a, b) => b.total - a.total);
 }
 
-function mostrarResultados(resultados) {
-  const contenedor = document.getElementById("results");
-  contenedor.innerHTML = "<h2>Resultados</h2>";
-  resultados.forEach(r => {
-    const div = document.createElement("div");
-    div.innerHTML = `<strong>${r.nombre}:</strong> ${r.total} <br><small>${r.descripcion}</small>`;
-    contenedor.appendChild(div);
-  });
-}
-
 function enviarResultados(nombre, correo, telefono, resultados) {
   const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
 
   const paramsAdmin = { nombre, correo, telefono, resultados: cuerpo };
   const paramsUsuario = { nombre, correo, resultados: cuerpo };
 
-  // 🔹 Enviar correos por separado, sin bloquear
+  // EmailJS (admin)
   emailjs.send("service_m7i35iw", "template_3hymrgx", paramsAdmin)
     .then(() => console.log("✅ Correo enviado al admin"))
     .catch(err => console.error("❌ Error al enviar al admin:", err));
 
+  // EmailJS (usuario)
   emailjs.send("service_m7i35iw", "template_kh5rb49", paramsUsuario)
     .then(() => console.log("✅ Correo enviado al usuario"))
     .catch(err => console.error("❌ Error al enviar al usuario:", err));
 
-  // 🔹 Enviar resultados a Google Sheets (flujo independiente)
+  // Firebase
   guardarEnFirebase(nombre, correo, telefono, resultados);
 
-  // 🔹 Guardar localmente y redirigir sin depender de los correos ni Sheets
+  // LocalStorage y redirección
   const cuerpoTexto = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
   localStorage.setItem("ultimo_resultado", JSON.stringify({ resultados: cuerpoTexto }));
   window.location.href = "gracias.html";
@@ -75,7 +66,6 @@ function guardarEnFirebase(nombre, correo, telefono, resultados) {
       resultados: {}
     };
 
-    // Guardar resultados como objeto {Sabiduría: 20, Misericordia: 12...}
     resultados.forEach(r => {
       registro.resultados[r.nombre] = r.total;
     });
@@ -89,61 +79,38 @@ function guardarEnFirebase(nombre, correo, telefono, resultados) {
   }
 }
 
-
-
 async function iniciar() {
   const data = await loadPreguntas();
-  const form = document.getElementById("test-form");
-  form.innerHTML = data.preguntas.map(crearHTMLPregunta).join("");
 
-  form.addEventListener("submit", (e) => {
+  // Renderizar preguntas dentro de #test-form
+  const testForm = document.getElementById("test-form");
+  testForm.innerHTML = data.preguntas.map(crearHTMLPregunta).join("");
+
+  // El botón está fuera de los forms → usar click del botón
+  const btn = document.getElementById("submit");
+  btn.addEventListener("click", (e) => {
     e.preventDefault();
 
-  const nombre = document.getElementById("nombre").value.trim();
-  const correo = document.getElementById("correo").value.trim();
-  const telefono = document.getElementById("telefono").value.trim();
-    
-  // Validar campos vacíos
-  if (!nombre || !correo || !telefono) {
-    alert("⚠️ Por favor, completa tu nombre, correo y teléfono antes de enviar el test.");
-    return;
-  }
+    const nombre = document.getElementById("nombre").value.trim();
+    const correo = document.getElementById("correo").value.trim();
+    const telefono = document.getElementById("telefono").value.trim();
 
-  // Validar formato de correo
-  const correoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!correoValido.test(correo)) {
-    alert("⚠️ Por favor, ingresa un correo electrónico válido.");
-    return;
-  }
-    
-    const formData = new FormData(form);
+    if (!nombre || !correo || !telefono) {
+      alert("⚠️ Por favor, completa tu nombre, correo y teléfono antes de enviar el test.");
+      return;
+    }
+
+    const correoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!correoValido.test(correo)) {
+      alert("⚠️ Por favor, ingresa un correo electrónico válido.");
+      return;
+    }
+
+    const formData = new FormData(testForm);
     const resultados = calcularResultados(data, formData);
-    //mostrarResultados(resultados);
-    
 
-
-enviarResultados(nombre, correo, telefono, resultados);
-
+    enviarResultados(nombre, correo, telefono, resultados);
   });
 }
 
 iniciar();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
