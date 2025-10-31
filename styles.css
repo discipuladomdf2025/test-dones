@@ -1,3 +1,6 @@
+/* =========================
+   🎨 Estilo general
+   ========================= */
 body {
   font-family: "Poppins", Arial, sans-serif;
   margin: 0;
@@ -14,7 +17,7 @@ body {
   backdrop-filter: blur(8px);
   border-radius: 15px;
   padding: 40px;
-  box-shadow: 0 0 25px rgba(0,0,0,0.3);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
 }
 
 header {
@@ -48,8 +51,48 @@ ul {
   color: #cce0ff;
 }
 
+/* =========================
+   🧾 Formulario de información
+   ========================= */
+#info-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 35px;
+  position: relative;
+  z-index: 2;
+  padding: 10px 0;
+}
+
+#info-form label {
+  font-weight: bold;
+  color: #cce0ff;
+}
+
+#info-form input {
+  display: block;
+  width: 60%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #003366;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+#info-form input:focus {
+  background-color: #ffffff;
+  border-color: #66b2ff;
+  box-shadow: 0 0 5px rgba(102, 178, 255, 0.8);
+}
+
+/* =========================
+   ❓ Bloque de preguntas
+   ========================= */
 .question {
-  margin: 15px 0;
+  margin: 20px 0;
   padding: 15px;
   background: rgba(255, 255, 255, 0.08);
   border-radius: 10px;
@@ -58,29 +101,56 @@ ul {
 
 .question p {
   color: #ffffff;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  text-align: left;
+  line-height: 1.5;
 }
 
-label {
-  display: inline-block;
-  background: #3399ff;
-  color: white;
-  padding: 8px 15px;
-  border-radius: 20px;
+/* Contenedor horizontal de los tres botones */
+.question-options {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Estilo de cada opción (0,1,2) */
+.question label {
+  flex: 1;
+  display: block;
+  text-align: center;
+  font-weight: 600;
+  color: #ffffff;
+  background: #2e74b5; /* Azul institucional */
+  border-radius: 12px;
+  padding: 12px 0;
   cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   transition: all 0.3s ease;
 }
 
+/* Variante alternativa (café suave): cambia #2e74b5 por este para probarlo */
+/* background: #b59b7a;  color: #fff;  border-color: #a48b68; */
 
-
-input[type="radio"] {
-  margin-right: 5px;
+.question label:hover {
+  background: #66b2ff;
 }
 
+.question input[type="radio"] {
+  display: none;
+}
+
+.question input[type="radio"]:checked + label {
+  background: #66b2ff;
+  box-shadow: 0 0 10px rgba(102, 178, 255, 0.7);
+}
+
+/* =========================
+   🧩 Botón principal
+   ========================= */
 button {
   display: block;
-  margin: 25px auto;
-  padding: 12px 40px;
+  margin: 30px auto;
+  padding: 14px 40px;
   font-size: 16px;
   font-weight: bold;
   border: none;
@@ -95,6 +165,9 @@ button:hover {
   background-color: #66b2ff;
 }
 
+/* =========================
+   📊 Resultados
+   ========================= */
 .results {
   margin-top: 30px;
   padding: 20px;
@@ -105,208 +178,47 @@ button:hover {
 
 .results h2 {
   text-align: center;
-  color: #ffffff;
   margin-bottom: 20px;
 }
 
 .results div {
   padding: 8px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.15);
-}
-
-#info-form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px; /* 🔹 Espaciado entre cada campo */
-  margin-bottom: 35px; /* 🔹 Espacio inferior antes del test */
-  position: relative;
-  z-index: 2;
-  padding: 10px 0; /* 🔹 Espacio vertical interno */
-}
-
-#info-form label {
-  font-weight: bold;
-  color: #cce0ff;
-  margin-bottom: 4px; /* 🔹 Espacio entre etiqueta e input */
-  width: 50%;
-  margin: 0%;
-  
-}
-
-#info-form label:hover {
-  background: #66b2ff;
-}
-
-#info-form input {
-  display:block; /* 🔹 cada elemento ocupa toda la línea */
-  width: 53%;
-  padding: 12px 15px;
-  height: 10px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #003366;
-  font-size: 16px;
-  outline: none;
-  box-sizing: border-box;
-  line-height: normal;
-  transition: all 0.3s ease;
-}
-
-#info-form input::placeholder {
-  color: #6b8fbf;
-  opacity: 1;
-}
-
-#info-form input:focus {
-  background-color: #ffffff;
-  border-color: #66b2ff;
-  box-shadow: 0 0 5px rgba(102, 178, 255, 0.8);
-}
-
-#test-form input {
-  display:block;
-  width:100%;
-}
-
-
-#test-form label {
-margin: 5px, 10px;
-width: 27%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* =========================
-   📱 AJUSTES PARA MÓVILES
+   📱 Ajustes para móviles
    ========================= */
 @media (max-width: 600px) {
+  .container {
+    padding: 20px;
+  }
+
+  #info-form input {
+    width: 100%;
+  }
+
   .question {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
+    padding: 15px;
+  }
 
   .question p {
-    margin-bottom: 8px;
+    font-size: 0.95rem;
+    text-align: left;
+  }
+
+  .question-options {
+    flex-direction: row;
+    gap: 8px;
   }
 
   .question label {
-  flex: 1 1 30%;
-  text-align: center;
-  margin: 4px;
-}
-
-  .question input[type="radio"] {
-    margin-right: 8px;
+    font-size: 0.9rem;
+    padding: 10px 0;
   }
 
   button#submit {
     width: 100%;
-    padding: 12px;
     font-size: 16px;
   }
-
-  header img {
-    width: 80px;
-  }
-
-  .container {
-    padding: 15px;
-  }
 }
-
-/* ======== Corrección para mantener 0-1-2 en una sola fila ======== */
-.question {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-}
-
-.question label {
-  flex: 1 1 0;
-  text-align: center;
-  background: #f3f5ff;
-  border: 1px solid #d2d8ff;
-  border-radius: 10px;
-  padding: 10px 0;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.question label:hover {
-  background: #e2e7ff;
-}
-
-.question input[type="radio"] {
-  margin-right: 6px;
-}
-
-@media (max-width: 600px) {
-  .question {
-    gap: 6px;
-  }
-
-  .question label {
-    font-size: 0.9rem;
-    padding: 8px 0;
-  }
-}
-/* ======== Corrección para mantener 0-1-2 en una sola fila ======== */
-.question {
-  display: flex;
-  flex-wrap: nowrap;         /* ❌ evita que el 2 se baje */
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;                  /* pequeño espacio entre ellos */
-}
-
-.question label {
-  flex: 1 1 0;               /* los tres ocupan el mismo ancho */
-  text-align: center;
-  background: #f3f5ff;
-  border: 1px solid #d2d8ff;
-  border-radius: 10px;
-  padding: 10px 0;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.question label:hover {
-  background: #e2e7ff;
-}
-
-.question input[type="radio"] {
-  margin-right: 6px;
-}
-
-/* ======== Ajuste responsivo para móvil ======== */
-@media (max-width: 600px) {
-  .question {
-    gap: 6px;
-  }
-
-  .question label {
-    font-size: 0.9rem;
-    padding: 8px 0;
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
