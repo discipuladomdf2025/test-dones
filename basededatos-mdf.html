@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Resultados - Mundo de Fe Costa Rica</title>
 
-  <!-- ✅ Importar Firebase (v9 modular compat) -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <style>
   body {
@@ -65,15 +64,17 @@
     line-height: 1.5;
   }
 
-  pre {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    background: rgba(0, 0, 0, 0.25);
-    color: #cfe8ff;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 0.95rem;
+  .kv {
     margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.25);
+  }
+
+  .kv p {
+    margin: 6px 0;
+    font-size: 0.95rem;
+    color: #cfe8ff;
   }
 
   .btn-borrar {
@@ -103,22 +104,9 @@
   }
 
   @media (max-width: 600px) {
-    body {
-      padding: 20px;
-    }
-
-    .registro {
-      width: 100%;
-      padding: 18px;
-      font-size: 0.95rem;
-    }
-
-    .btn-borrar {
-      top: 10px;
-      right: 10px;
-      padding: 6px 10px;
-      font-size: 0.8rem;
-    }
+    body { padding: 20px; }
+    .registro { width: 100%; padding: 18px; font-size: 0.95rem; }
+    .btn-borrar { top: 10px; right: 10px; padding: 6px 10px; font-size: 0.8rem; }
   }
   </style>
 </head>
@@ -129,7 +117,6 @@
   <div id="lista"></div>
 
   <script>
-    // ✅ Configuración Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyAc05jP3k8_Ik5qnwIrqSbtJBT9FpoXtAM",
       authDomain: "discipuladomdf.firebaseapp.com",
@@ -140,15 +127,24 @@
       appId: "1:21094891349:web:be1a4483b7737c70cb39dc"
     };
 
-    // Inicializar Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const lista = document.getElementById("lista");
 
-    // 🔹 Cargar datos en tiempo real
+    function renderResultadosKV(resultados) {
+      if (!resultados || typeof resultados !== "object") {
+        return `<div class="kv"><p>Sin resultados</p></div>`;
+      }
+      const entries = Object.entries(resultados).sort((a,b) => b[1]-a[1]);
+      return `
+        <div class="kv">
+          ${entries.map(([k,v]) => `<p><strong style="color:#a3d0ff;">${k}:</strong> ${v}</p>`).join("")}
+        </div>
+      `;
+    }
+
     function cargarDatos() {
       const ref = db.ref("respuestas");
-
       ref.on("value", (snapshot) => {
         lista.innerHTML = "";
         const data = snapshot.val();
@@ -171,7 +167,7 @@
             <p>📱 ${r.telefono || 'Sin teléfono'}</p>
             <p>🕒 ${r.fecha ? new Date(r.fecha).toLocaleString() : 'Sin fecha'}</p>
             <p>💬 <strong>Resultados:</strong></p>
-            <pre>${r.resultados || 'Sin resultados'}</pre>
+            ${renderResultadosKV(r.resultados)}
           `;
           lista.appendChild(div);
         });
@@ -181,18 +177,14 @@
       });
     }
 
-    // 🔹 Eliminar registro
     window.borrarRegistro = function (id) {
       if (confirm("¿Seguro que deseas borrar este registro?")) {
         db.ref("respuestas/" + id).remove()
-          .then(() => {
-            alert("✅ Registro eliminado correctamente");
-          })
+          .then(() => { alert("✅ Registro eliminado correctamente"); })
           .catch(err => alert("❌ Error al eliminar: " + err));
       }
     };
 
-    // 🔹 Iniciar carga
     cargarDatos();
   </script>
 </body>
