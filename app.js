@@ -125,26 +125,28 @@ iniciar();
 function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
   const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
 
-  fetch("https://script.google.com/macros/s/AKfycbxEpRzeusuTpwVvb9YhKPPw2sv4CyU_jCNCQ4c6mNr8yxRHKJDCbxE-QLQgoF7-62i6tQ/exec", {
+  const data = {
+    nombre: nombre,
+    correo: correo,
+    telefono: telefono,
+    resultados: cuerpo
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxfzbSo4aJ2ZNyvkGj3LGUWwJN9-4c73g2KL5sgQZwN2yba2GLZjFjDorW6Yc6Hgg3-kA/exec", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      nombre: nombre,
-      correo: correo,
-      telefono: telefono,
-      resultados: cuerpo
-    })
+    mode: "no-cors", // 🚨 este parámetro es clave para evitar bloqueos CORS
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: new URLSearchParams(data)
   })
-  .then(res => res.text())
-  .then(txt => {
-    if (txt === "OK") {
-      console.log("✅ Resultados guardados en Google Sheets");
-    } else {
-      console.error("⚠️ Respuesta inesperada:", txt);
-    }
+  .then(() => {
+    console.log("✅ Datos enviados al Google Sheet");
   })
   .catch(err => console.error("❌ Error al guardar en Sheets:", err));
 }
+
+
 
 
 
