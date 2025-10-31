@@ -125,21 +125,28 @@ iniciar();
 function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
   const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
 
-  const data = new FormData();
-  data.append("nombre", nombre);
-  data.append("correo", correo);
-  data.append("telefono", telefono);
-  data.append("resultados", cuerpo);
-
   fetch("https://script.google.com/macros/s/AKfycbwIb_UdRIpKci8wC_dxufBLEc24Q4K363bR70ZEVKU7HjfemKMvakzj1aNjAblaO0ap3g/exec", {
     method: "POST",
-    body: data // 🔹 sin headers ni modo CORS: compatible con mobile
+    headers: { "Content-Type": "application/json" }, // 🔹 importante: JSON
+    body: JSON.stringify({
+      nombre,
+      correo,
+      telefono,
+      resultados: cuerpo
+    })
   })
-  .then(() => {
-    console.log("✅ Datos enviados al Google Sheet (PC y móvil)");
+  .then(res => res.text())
+  .then(txt => {
+    if (txt === "OK") {
+      console.log("✅ Resultados guardados correctamente en Google Sheets");
+    } else {
+      console.error("⚠️ Respuesta inesperada del script:", txt);
+    }
   })
   .catch(err => console.error("❌ Error al guardar en Sheets:", err));
 }
+
+
 
 
 
