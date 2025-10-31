@@ -47,12 +47,12 @@ Users can answer a series of questions, receive a personalized result, and autom
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/username/test-dones.git
+   git clone https://github.com/discipuladomdf2025/test-dones.git
    ```
 
 2. Open `index.html` or access the hosted version:
    ```
-   https://username.github.io/test-dones/
+   https://discipuladomdf2025.github.io/test-dones/
    ```
 
 3. (Optional) Customize:
