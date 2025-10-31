@@ -110,9 +110,7 @@ async function iniciar() {
     const resultados = calcularResultados(data, formData);
     mostrarResultados(resultados);
     
-const nombre = document.getElementById("nombre").value;
-const correo = document.getElementById("correo").value;
-const telefono = document.getElementById("telefono").value;
+
 
 enviarResultados(nombre, correo, telefono, resultados);
 
@@ -144,6 +142,7 @@ function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
   })
   .catch(err => console.error("❌ Error al guardar en Sheets:", err));
 }
+
 
 
 
