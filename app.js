@@ -63,8 +63,13 @@ function enviarResultados(nombre, correo, telefono, resultados) {
       return emailjs.send("service_m7i35iw", "template_kh5rb49", paramsUsuario);
     })
     .then(() => {
-      alert("✅ Resultado enviado al ministerio y al participante.");
-    })
+  // Guarda los resultados localmente para mostrarlos en la página de agradecimiento
+  const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
+  localStorage.setItem("ultimo_resultado", JSON.stringify({ resultados: cuerpo }));
+
+  // Redirige a la nueva página
+  window.location.href = "gracias.html";
+})
     .catch(error => {
       console.error("❌ Error completo:", error);
       alert("❌ Error al enviar: " + JSON.stringify(error));
@@ -113,6 +118,7 @@ enviarResultados(nombre, correo, telefono, resultados);
 }
 
 iniciar();
+
 
 
 
