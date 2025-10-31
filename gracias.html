@@ -6,7 +6,6 @@
   <title>Gracias por participar - Mundo de Fe Costa Rica</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-  /* === Fondo igual al index === */
   body {
     font-family: "Poppins", Arial, sans-serif;
     margin: 0;
@@ -22,27 +21,18 @@
   }
 
   .container {
-  max-width: 750px;          /* 🔹 antes 600px → ahora más ancho */
-  padding: 50px 40px;        /* 🔹 antes 30px → ahora más espacio interno */
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
-  text-align: center;
-  margin: 80px auto;          /* 🔹 más espacio vertical */
+    max-width: 750px;
+    padding: 50px 40px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+    text-align: center;
+    margin: 80px auto;
   }
 
-  h1 {
-    font-size: 2rem;
-    color: #ffffff;
-    margin-bottom: 10px;
-  }
-
-  p {
-    font-size: 1.1rem;
-    color: #cce0ff;
-    margin-bottom: 25px;
-  }
+  h1 { font-size: 2rem; color: #ffffff; margin-bottom: 10px; }
+  p  { font-size: 1.1rem; color: #cce0ff; margin-bottom: 25px; }
 
   a {
     display: inline-block;
@@ -54,74 +44,39 @@
     font-weight: 600;
     transition: background 0.3s ease;
   }
+  a:hover { background: #66b2ff; }
 
-  a:hover {
-    background: #66b2ff;
-  }
+  pre { font-size: 1.3rem; }
 
-    pre {
-      font-size: 1.3rem;
-    }
-
-  /* 📱 Versión móvil */
   @media (max-width: 600px) {
-      .container {
-    width: 90%;
-    padding: 30px 20px;      /* 🔹 un poco más espacioso también en móvil */
-    margin: 40px auto;
+    .container { width: 90%; padding: 30px 20px; margin: 40px auto; }
+    h1 { font-size: 1.6rem; }
+    p  { font-size: 1rem; }
+    a  { display:block; width:60%; margin:20px auto; font-size:1rem; padding:12px; }
+    pre { font-size: 1rem; }
   }
 
-    h1 {
-      font-size: 1.6rem;
-    }
-
-    p {
-      font-size: 1rem;
-    }
-
-    a {
-      display: block; /* 🔹 ocupa toda la línea */
-      width: 60%;     /* 🔹 ancho controlado para que no pegue con bordes */
-      margin: 20px auto; /* 🔹 centrado perfecto */
-      font-size: 1rem;
-      padding: 12px;
-    }
-    pre {
-      font-size: 1rem;
-    }
-  }
-#resultados {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  padding: 20px 25px;
-  text-align: left;
-  white-space: pre-line; /* conserva saltos de línea */
-  font-family: "Courier New", monospace;
-  font-size: 1.3rem;
-  line-height: 1.6;
-  color: #e0ecff;
-  max-width: 500px;
-  margin: 0 auto 25px auto;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Titulares dentro de los resultados */
-#resultados strong {
-  color: #ffffff;
-  font-weight: bold;
-}
-
-/* === Ajuste móvil === */
-@media (max-width: 600px) {
   #resultados {
-    font-size: 1rem;
-    padding: 15px 18px;
-    line-height: 1.5;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 20px 25px;
+    text-align: left;
+    white-space: pre-line;
+    font-family: "Courier New", monospace;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: #e0ecff;
+    max-width: 500px;
+    margin: 0 auto 25px auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   }
-}
-    
-</style>
+  #resultados strong { color: #ffffff; font-weight: bold; }
+
+  @media (max-width: 600px) {
+    #resultados { font-size: 1rem; padding: 15px 18px; line-height: 1.5; }
+  }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -134,9 +89,8 @@
   </div>
 
   <script>
-    // Mostrar los resultados guardados temporalmente
     const data = JSON.parse(localStorage.getItem("ultimo_resultado"));
-    if (data) {
+    if (data && data.resultados) {
       document.getElementById("resultados").textContent = data.resultados;
       localStorage.removeItem("ultimo_resultado");
     } else {
