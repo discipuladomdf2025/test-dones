@@ -131,7 +131,7 @@ function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
   data.append("telefono", telefono);
   data.append("resultados", cuerpo);
 
-  fetch("https://script.google.com/macros/s/AKfycbxfzbSo4aJ2ZNyvkGj3LGUWwJN9-4c73g2KL5sgQZwN2yba2GLZjFjDorW6Yc6Hgg3-kA/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbwo7wQ2opBhiT_Ht7quz3faoB8i3WwbTIvZc5M-6xCeht65luQ2CwKD2ZUi0VMssEZ_RQ/exec", {
     method: "POST",
     body: data // 🔹 sin headers ni modo CORS: compatible con mobile
   })
@@ -140,6 +140,7 @@ function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
   })
   .catch(err => console.error("❌ Error al guardar en Sheets:", err));
 }
+
 
 
 
