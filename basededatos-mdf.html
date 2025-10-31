@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultados - Mundo de Fe Costa Rica</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+
+  <style>
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: linear-gradient(180deg, #0066cc, #003366);
+      color: #fff;
+      text-align: center;
+    }
+
+    .registro {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      margin: 15px auto;
+      padding: 20px;
+      max-width: 700px;
+      text-align: left;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    .registro h3 {
+      margin-top: 0;
+      color: #a3d0ff;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      color: #fff;
+      background: rgba(255,255,255,0.05);
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px;
+      }
+      .registro {
+        padding: 15px;
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>📋 Resultados de Discipulados MDF</h1>
+  <div id="lista"></div>
+
+  <script>
+    // 🔥 Configuración Firebase (usa tu config exacta)
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "discipuladomdf.firebaseapp.com",
+      databaseURL: "https://discipuladomdf-default-rtdb.firebaseio.com",
+      projectId: "discipuladomdf",
+      storageBucket: "discipuladomdf.appspot.com",
+      messagingSenderId: "XXXXXXXXXXX",
+      appId: "1:XXXXXXXXXXX:web:XXXXXXXXXXXX"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // 🔹 Leer todos los datos de "respuestas"
+    firebase.database().ref("respuestas").once("value")
+      .then(snapshot => {
+        const data = snapshot.val();
+        const lista = document.getElementById("lista");
+
+        if (!data) {
+          lista.innerHTML = "<p>No hay resultados registrados aún.</p>";
+          return;
+        }
+
+        // 🔹 Ordenar por fecha descendente
+        const registros = Object.values(data).sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
+        registros.forEach(r => {
+          const div = document.createElement("div");
+          div.classList.add("registro");
+          div.innerHTML = `
+            <h3>🧍 ${r.nombre}</h3>
+            <p>📧 <strong>${r.correo}</strong></p>
+            <p>📱 ${r.telefono}</p>
+            <p>🕒 ${new Date(r.fecha).toLocaleString()}</p>
+            <p>💬 <strong>Resultados:</strong></p>
+            <pre>${r.resultados}</pre>
+          `;
+          lista.appendChild(div);
+        });
+      })
+      .catch(err => {
+        document.getElementById("lista").innerHTML = "<p>Error al cargar los resultados.</p>";
+        console.error("❌ Error al leer Firebase:", err);
+      });
+  </script>
+</body>
+</html>
