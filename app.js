@@ -50,7 +50,7 @@ function enviarResultados(nombre, correo, telefono, resultados) {
     telefono: telefono,
     resultados: cuerpo
   };
-}
+
   const paramsUsuario = {
     nombre: nombre,
     correo: correo,
@@ -69,7 +69,7 @@ function enviarResultados(nombre, correo, telefono, resultados) {
     console.error("❌ Error completo:", error);
     alert("❌ Error al enviar: " + JSON.stringify(error));
   });
-
+}
 
 
 
@@ -134,4 +134,5 @@ function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
   })
   .catch(err => console.error("❌ Error al guardar en Sheets:", err));
 }
+
 
