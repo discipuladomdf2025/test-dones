@@ -67,23 +67,20 @@ function enviarResultados(nombre, correo, telefono, resultados) {
 
 function guardarEnFirebase(nombre, correo, telefono, resultados) {
   try {
-    if (!firebase.apps.length) {
-      console.error("❌ Firebase no está inicializado");
-      return;
-    }
-
-    const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
-
     const registro = {
       nombre,
       correo,
       telefono,
-      resultados: cuerpo,
-      fecha: new Date().toISOString()
+      fecha: new Date().toISOString(),
+      resultados: {}
     };
 
-    const nuevoId = Date.now();
-    firebase.database().ref("respuestas/" + nuevoId).set(registro)
+    // Guardar resultados como objeto {Sabiduría: 20, Misericordia: 12...}
+    resultados.forEach(r => {
+      registro.resultados[r.nombre] = r.total;
+    });
+
+    firebase.database().ref("respuestas").push(registro)
       .then(() => console.log("✅ Datos guardados en Firebase"))
       .catch(err => console.error("❌ Error al guardar en Firebase:", err));
 
@@ -94,13 +91,12 @@ function guardarEnFirebase(nombre, correo, telefono, resultados) {
 
 
 
-
 async function iniciar() {
   const data = await loadPreguntas();
   const form = document.getElementById("test-form");
   form.innerHTML = data.preguntas.map(crearHTMLPregunta).join("");
 
-  document.getElementById("submit").addEventListener("click", (e) => {
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
 
   const nombre = document.getElementById("nombre").value.trim();
@@ -132,6 +128,7 @@ enviarResultados(nombre, correo, telefono, resultados);
 }
 
 iniciar();
+
 
 
 
