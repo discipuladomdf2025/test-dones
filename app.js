@@ -134,25 +134,3 @@ function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
   })
   .catch(err => console.error("❌ Error al guardar en Sheets:", err));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
