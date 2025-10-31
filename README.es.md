@@ -47,12 +47,12 @@ Permite a los usuarios responder un conjunto de preguntas, obtener un resultado 
 
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/usuario/test-dones.git
+   git clone https://github.com/discipuladomdf2025/test-dones.git
    ```
 
 2. Abrir `index.html` o acceder directamente a la versión publicada en GitHub Pages:
    ```
-   https://usuario.github.io/test-dones/
+   https://discipuladomdf2025.github.io/test-dones/
    ```
 
 3. (Opcional) Personalizar:
