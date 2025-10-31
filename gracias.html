@@ -89,6 +89,37 @@
       font-size: 1rem;
     }
   }
+#resultados {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 20px 25px;
+  text-align: left;
+  white-space: pre-line; /* conserva saltos de línea */
+  font-family: "Courier New", monospace;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  color: #e0ecff;
+  max-width: 500px;
+  margin: 0 auto 25px auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Titulares dentro de los resultados */
+#resultados strong {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* === Ajuste móvil === */
+@media (max-width: 600px) {
+  #resultados {
+    font-size: 1rem;
+    padding: 15px 18px;
+    line-height: 1.5;
+  }
+}
+    
 </style>
 </head>
 <body>
