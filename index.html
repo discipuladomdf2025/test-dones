@@ -50,10 +50,28 @@
     emailjs.init("13cKDZbvcTVL3V3xe"); // ejemplo: emailjs.init("9XxA8gT123abc")
   })();
 </script>
+  
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
+<script>
+  const firebaseConfig = {
+  apiKey: "AIzaSyAc05jP3k8_Ik5qnwIrqSbtJBT9FpoXtAM",
+  authDomain: "discipuladomdf.firebaseapp.com",
+  databaseURL: "https://discipuladomdf-default-rtdb.firebaseio.com",
+  projectId: "discipuladomdf",
+  storageBucket: "discipuladomdf.firebasestorage.app",
+  messagingSenderId: "21094891349",
+  appId: "1:21094891349:web:be1a4483b7737c70cb39dc"
+};
+
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+</script>
 
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
