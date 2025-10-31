@@ -57,7 +57,7 @@ function enviarResultados(nombre, correo, telefono, resultados) {
     .catch(err => console.error("❌ Error al enviar al usuario:", err));
 
   // 🔹 Enviar resultados a Google Sheets (flujo independiente)
-  guardarEnGoogleSheets(nombre, correo, telefono, resultados);
+  guardarEnFirebase(nombre, correo, telefono, resultados);
 
   // 🔹 Guardar localmente y redirigir sin depender de los correos ni Sheets
   const cuerpoTexto = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
@@ -65,24 +65,21 @@ function enviarResultados(nombre, correo, telefono, resultados) {
   window.location.href = "gracias.html";
 }
 
-function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
+function guardarEnFirebase(nombre, correo, telefono, resultados) {
   const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
 
-  // Enviamos como x-www-form-urlencoded explícitamente
-  const data = new URLSearchParams();
-  data.append("nombre", nombre);
-  data.append("correo", correo);
-  data.append("telefono", telefono);
-  data.append("resultados", cuerpo);
+  const registro = {
+    nombre,
+    correo,
+    telefono,
+    resultados: cuerpo,
+    fecha: new Date().toISOString()
+  };
 
-  fetch("https://script.google.com/macros/s/AKfycbwEXZs1jBzQxGIJiLLpNc4pdNdSnjvw-D9W1g8UmrEK0qdmdUbEfBjw3x74UZ9w0qkO/exec", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" }, // 👈 clave para que e.parameter se llene
-    body: data.toString()
-  })
-  .then(res => res.text())
-  .then(txt => console.log("📄 Respuesta del script:", txt))
-  .catch(err => console.error("❌ Error al guardar en Sheets:", err));
+  const nuevoId = Date.now(); // ID único
+  firebase.database().ref("respuestas/" + nuevoId).set(registro)
+    .then(() => console.log("✅ Datos guardados en Firebase"))
+    .catch(err => console.error("❌ Error al guardar en Firebase:", err));
 }
 
 
@@ -124,6 +121,7 @@ enviarResultados(nombre, correo, telefono, resultados);
 }
 
 iniciar();
+
 
 
 
