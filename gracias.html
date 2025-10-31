@@ -6,97 +6,83 @@
   <title>Gracias por participar - Mundo de Fe Costa Rica</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-    body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: linear-gradient(180deg, #eaf0ff 0%, #ffffff 100%);
-  color: #1c1c1c;
-  margin: 0;
-  padding: 0;
-}
+  /* === Fondo igual al index === */
+  body {
+    font-family: "Poppins", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(180deg, #0066cc, #003366);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+  }
 
-.container {
-  max-width: 650px;
-  background: #ffffff;
-  margin: 60px auto;
-  padding: 40px 30px;
-  border-radius: 18px;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.container:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-}
-
-header img {
-  width: 100px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-}
-
-h1 {
-  color: #004aad; /* azul institucional */
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-}
-
-p {
-  color: #333;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-pre {
-  background: #f3f5ff;
-  border: 1px solid #d2d8ff;
-  border-radius: 12px;
-  padding: 15px;
-  text-align: left;
-  white-space: pre-wrap;
-  word-break: break-word;
-  color: #003d99;
-  font-size: 0.95rem;
-}
-
-a {
-  display: inline-block;
-  background: #004aad;
-  color: white;
-  padding: 12px 24px;
-  margin-top: 25px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background 0.3s;
-}
-
-a:hover {
-  background: #003b8f;
-}
-
-/* 📱 Ajustes para móviles */
-@media (max-width: 600px) {
   .container {
-    margin: 30px 15px;
-    padding: 25px 20px;
+  max-width: 750px;          /* 🔹 antes 600px → ahora más ancho */
+  padding: 50px 40px;        /* 🔹 antes 30px → ahora más espacio interno */
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+  text-align: center;
+  margin: 80px auto;          /* 🔹 más espacio vertical */
   }
 
   h1 {
-    font-size: 1.5rem;
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 10px;
   }
 
-  pre {
-    font-size: 0.9rem;
+  p {
+    font-size: 1.1rem;
+    color: #cce0ff;
+    margin-bottom: 25px;
   }
 
   a {
-    width: 100%;
-    font-size: 1rem;
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 8px;
+    background: #3399ff;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s ease;
   }
-}
-  </style>
+
+  a:hover {
+    background: #66b2ff;
+  }
+
+  /* 📱 Versión móvil */
+  @media (max-width: 600px) {
+      .container {
+    width: 90%;
+    padding: 30px 20px;      /* 🔹 un poco más espacioso también en móvil */
+    margin: 40px auto;
+  }
+
+    h1 {
+      font-size: 1.6rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+
+    a {
+      width: 100%;
+      font-size: 1rem;
+      padding: 12px;
+      margin-top: 10px;
+    }
+  }
+</style>
 </head>
 <body>
   <div class="container">
