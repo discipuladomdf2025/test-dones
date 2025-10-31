@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gracias por participar - Mundo de Fe Costa Rica</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 40px;
+      background: #f7f9fc;
+    }
+    .container {
+      background: white;
+      border-radius: 12px;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 30px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #004aad;
+      margin-bottom: 15px;
+    }
+    p {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    pre {
+      background: #f0f0f0;
+      text-align: left;
+      padding: 15px;
+      border-radius: 10px;
+      overflow-x: auto;
+    }
+    a {
+      display: inline-block;
+      margin-top: 25px;
+      background: #004aad;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🕊️ ¡Gracias por participar!</h1>
+    <p>Hemos recibido tus respuestas con éxito.</p>
+    <p>Estos fueron tus resultados:</p>
+    <pre id="resultados"></pre>
+    <p>Si deseas participar en otro momento, puedes volver al test.</p>
+    <a href="index.html">Volver al inicio</a>
+  </div>
+
+  <script>
+    // Mostrar los resultados guardados temporalmente
+    const data = JSON.parse(localStorage.getItem("ultimo_resultado"));
+    if (data) {
+      document.getElementById("resultados").textContent = data.resultados;
+      localStorage.removeItem("ultimo_resultado");
+    } else {
+      document.getElementById("resultados").textContent = "No hay resultados disponibles.";
+    }
+  </script>
+</body>
+</html>
