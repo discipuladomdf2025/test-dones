@@ -58,26 +58,18 @@ function enviarResultados(nombre, correo, telefono, resultados) {
   };
 
  emailjs.send("service_m7i35iw", "template_3hymrgx", paramsAdmin)
-    .then(() => {
-      // 🔹 2. Cuando se haya enviado al ministerio, enviar al participante
-      return emailjs.send("service_m7i35iw", "template_kh5rb49", paramsUsuario);
-    })
-    .then(() => {
-  // Guarda los resultados localmente para mostrarlos en la página de agradecimiento
-  const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
-  localStorage.setItem("ultimo_resultado", JSON.stringify({ resultados: cuerpo }));
+  .then(() => {
+    // Guarda los resultados en Google Sheets
+    guardarEnGoogleSheets(nombre, correo, telefono, resultados);
 
-  // Redirige a la nueva página
-  window.location.href = "gracias.html";
-})
-   guardarEnGoogleSheets(nombre, correo, telefono, resultados);
+    // Redirige a la nueva página
+    window.location.href = "gracias.html";
+  })
+  .catch(error => {
+    console.error("❌ Error completo:", error);
+    alert("❌ Error al enviar: " + JSON.stringify(error));
+  });
 
-    .catch(error => {
-      console.error("❌ Error completo:", error);
-      alert("❌ Error al enviar: " + JSON.stringify(error));
-    });
-
-}
 
 
 
@@ -142,6 +134,7 @@ function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
   })
   .catch(err => console.error("❌ Error al guardar en Sheets:", err));
 }
+
 
 
 
