@@ -68,22 +68,22 @@ function enviarResultados(nombre, correo, telefono, resultados) {
 function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
   const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
 
-  // 🔹 Usamos URLSearchParams (sin preflight, seguro para móvil/PC)
+  // Enviamos como x-www-form-urlencoded explícitamente
   const data = new URLSearchParams();
   data.append("nombre", nombre);
   data.append("correo", correo);
   data.append("telefono", telefono);
   data.append("resultados", cuerpo);
 
-  fetch("https://script.google.com/macros/s/AKfycbxKhZKBqoWbx-NI6wDn2pNTQJ56voZJaGDAqbELx6xaX2gH_SoMRcKU4aT-lFD0ZLaCQA/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbxlFWIM6-GEtxz-C8fLsRFuGmmLSl5Wah_vuGcPg82oAMd4u-r1994YzddkeK8oalzrIA/exec", {
     method: "POST",
-    body: data
+    headers: { "Content-Type": "application/x-www-form-urlencoded" }, // 👈 clave para que e.parameter se llene
+    body: data.toString()
   })
-  .then(() => console.log("✅ Datos enviados al Google Sheet (independiente)"))
+  .then(res => res.text())
+  .then(txt => console.log("📄 Respuesta del script:", txt))
   .catch(err => console.error("❌ Error al guardar en Sheets:", err));
 }
-
-
 
 
 
@@ -124,6 +124,7 @@ enviarResultados(nombre, correo, telefono, resultados);
 }
 
 iniciar();
+
 
 
 
