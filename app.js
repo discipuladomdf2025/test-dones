@@ -75,7 +75,7 @@ function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
   data.append("telefono", telefono);
   data.append("resultados", cuerpo);
 
-  fetch("https://script.google.com/macros/s/AKfycbxlFWIM6-GEtxz-C8fLsRFuGmmLSl5Wah_vuGcPg82oAMd4u-r1994YzddkeK8oalzrIA/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbwEXZs1jBzQxGIJiLLpNc4pdNdSnjvw-D9W1g8UmrEK0qdmdUbEfBjw3x74UZ9w0qkO/exec", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" }, // 👈 clave para que e.parameter se llene
     body: data.toString()
@@ -124,6 +124,7 @@ enviarResultados(nombre, correo, telefono, resultados);
 }
 
 iniciar();
+
 
 
 
