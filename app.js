@@ -125,7 +125,7 @@ iniciar();
 function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
   const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
 
-  fetch("https://script.google.com/macros/s/AKfycby_9Gjapu5U6jwrHDr0jvNB5GMDSZaD9-p4aVW4He4jbAAKnqdhxwRWz2XxNr-UZMOVkQ/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbxEpRzeusuTpwVvb9YhKPPw2sv4CyU_jCNCQ4c6mNr8yxRHKJDCbxE-QLQgoF7-62i6tQ/exec", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -145,6 +145,7 @@ function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
   })
   .catch(err => console.error("❌ Error al guardar en Sheets:", err));
 }
+
 
 
 
