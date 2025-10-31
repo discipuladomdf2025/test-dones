@@ -70,6 +70,8 @@ function enviarResultados(nombre, correo, telefono, resultados) {
   // Redirige a la nueva página
   window.location.href = "gracias.html";
 })
+   guardarEnGoogleSheets(nombre, correo, telefono, resultados);
+
     .catch(error => {
       console.error("❌ Error completo:", error);
       alert("❌ Error al enviar: " + JSON.stringify(error));
@@ -119,6 +121,29 @@ enviarResultados(nombre, correo, telefono, resultados);
 
 iniciar();
 
+function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
+  const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
+
+  fetch("https://script.google.com/macros/s/AKfycbzOlDRGnj8a0qfExOUIQglTnbMke2xgU9dqrMLSOMSn5EN9ob1qaljrmyXZifxmZjdiAQ/exec", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      nombre: nombre,
+      correo: correo,
+      telefono: telefono,
+      resultados: cuerpo
+    })
+  })
+  .then(res => res.text())
+  .then(txt => {
+    if (txt === "OK") {
+      console.log("✅ Resultados guardados en Google Sheets");
+    } else {
+      console.error("⚠️ Respuesta inesperada:", txt);
+    }
+  })
+  .catch(err => console.error("❌ Error al guardar en Sheets:", err));
+}
 
 
 
