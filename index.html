@@ -8,7 +8,6 @@
 </head>
 <body>
   <div class="container">
-    <!-- Bloque del encabezado con el logo y título -->
     <header>
       <img src="logo.jpg" alt="Logo Mundo de Fe Costa Rica" />
       <h1> Test de Dones Espirituales</h1>
@@ -21,7 +20,7 @@
       <li>2 — Me describe mucho</li>
     </ul>
 
-    <!-- ✅ Formulario de información -->
+    <!-- info-form (se mantiene separado y arriba de las preguntas) -->
     <form id="info-form">
       <label>Nombre:</label>
       <input type="text" id="nombre" name="nombre" required>
@@ -35,7 +34,7 @@
 
     <hr>
 
-    <!-- ✅ Formulario del test -->
+    <!-- test-form (solo preguntas) -->
     <form id="test-form"></form>
     <button id="submit">Ver y Enviar Resultados</button>
 
@@ -46,7 +45,7 @@
     </footer>
   </div>
 
-  <!-- 🔹 EmailJS -->
+  <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
     (function(){
@@ -54,11 +53,10 @@
       console.log("✅ EmailJS inicializado");
     })();
   </script>
-  
-  <!-- 🔹 Firebase (versión compat) -->
+
+  <!-- Firebase (compat) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyAc05jP3k8_Ik5qnwIrqSbtJBT9FpoXtAM",
@@ -69,7 +67,6 @@
       messagingSenderId: "21094891349",
       appId: "1:21094891349:web:be1a4483b7737c70cb39dc"
     };
-
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
   </script>
