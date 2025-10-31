@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Resultados - Mundo de Fe Costa Rica</title>
-  <link rel="stylesheet" href="styles.css">
 
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
@@ -27,7 +26,8 @@
       padding: 20px;
       max-width: 700px;
       text-align: left;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      position: relative;
     }
 
     .registro h3 {
@@ -39,9 +39,26 @@
       white-space: pre-wrap;
       word-wrap: break-word;
       color: #fff;
-      background: rgba(255,255,255,0.05);
+      background: rgba(255, 255, 255, 0.05);
       padding: 10px;
       border-radius: 8px;
+    }
+
+    .btn-borrar {
+      background-color: #ff4d4d;
+      border: none;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      transition: background 0.3s;
+    }
+
+    .btn-borrar:hover {
+      background-color: #ff1a1a;
     }
 
     @media (max-width: 600px) {
@@ -52,61 +69,87 @@
         padding: 15px;
         font-size: 0.95rem;
       }
+      .btn-borrar {
+        top: 10px;
+        right: 10px;
+        padding: 6px 12px;
+      }
     }
   </style>
 </head>
 
 <body>
   <h1>📋 Resultados de Discipulados MDF</h1>
+  <p style="color:#a3d0ff;">Aquí puedes ver o eliminar los resultados registrados.</p>
   <div id="lista"></div>
 
   <script>
-    // 🔥 Configuración Firebase (usa tu config exacta)
+    // ✅ Firebase Config
     const firebaseConfig = {
-      apiKey: "TU_API_KEY",
+      apiKey: "AIzaSyAc05jP3k8_Ik5qnwIrqSbtJBT9FpoXtAM",
       authDomain: "discipuladomdf.firebaseapp.com",
       databaseURL: "https://discipuladomdf-default-rtdb.firebaseio.com",
       projectId: "discipuladomdf",
-      storageBucket: "discipuladomdf.appspot.com",
-      messagingSenderId: "XXXXXXXXXXX",
-      appId: "1:XXXXXXXXXXX:web:XXXXXXXXXXXX"
+      storageBucket: "discipuladomdf.firebasestorage.app",
+      messagingSenderId: "21094891349",
+      appId: "1:21094891349:web:be1a4483b7737c70cb39dc"
     };
 
+    // Inicializar Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
+    const lista = document.getElementById("lista");
 
-    // 🔹 Leer todos los datos de "respuestas"
-    firebase.database().ref("respuestas").once("value")
-      .then(snapshot => {
-        const data = snapshot.val();
-        const lista = document.getElementById("lista");
+    // 🔹 Función para cargar los datos
+    function cargarDatos() {
+      firebase.database().ref("respuestas").once("value")
+        .then(snapshot => {
+          lista.innerHTML = ""; // Limpiar antes de mostrar
+          const data = snapshot.val();
+          if (!data) {
+            lista.innerHTML = "<p>No hay resultados registrados aún.</p>";
+            return;
+          }
 
-        if (!data) {
-          lista.innerHTML = "<p>No hay resultados registrados aún.</p>";
-          return;
-        }
+          const registros = Object.entries(data).sort((a, b) => new Date(b[1].fecha) - new Date(a[1].fecha));
 
-        // 🔹 Ordenar por fecha descendente
-        const registros = Object.values(data).sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
-
-        registros.forEach(r => {
-          const div = document.createElement("div");
-          div.classList.add("registro");
-          div.innerHTML = `
-            <h3>🧍 ${r.nombre}</h3>
-            <p>📧 <strong>${r.correo}</strong></p>
-            <p>📱 ${r.telefono}</p>
-            <p>🕒 ${new Date(r.fecha).toLocaleString()}</p>
-            <p>💬 <strong>Resultados:</strong></p>
-            <pre>${r.resultados}</pre>
-          `;
-          lista.appendChild(div);
+          registros.forEach(([id, r]) => {
+            const div = document.createElement("div");
+            div.classList.add("registro");
+            div.innerHTML = `
+              <button class="btn-borrar" onclick="borrarRegistro('${id}')">🗑 Borrar</button>
+              <h3>🧍 ${r.nombre}</h3>
+              <p>📧 <strong>${r.correo}</strong></p>
+              <p>📱 ${r.telefono}</p>
+              <p>🕒 ${new Date(r.fecha).toLocaleString()}</p>
+              <p>💬 <strong>Resultados:</strong></p>
+              <pre>${r.resultados}</pre>
+            `;
+            lista.appendChild(div);
+          });
+        })
+        .catch(err => {
+          lista.innerHTML = "<p>Error al cargar los resultados.</p>";
+          console.error("❌ Error al leer Firebase:", err);
         });
-      })
-      .catch(err => {
-        document.getElementById("lista").innerHTML = "<p>Error al cargar los resultados.</p>";
-        console.error("❌ Error al leer Firebase:", err);
-      });
+    }
+
+    // 🔹 Función para borrar registro
+    window.borrarRegistro = function (id) {
+      if (confirm("¿Seguro que deseas borrar este registro?")) {
+        firebase.database().ref("respuestas/" + id).remove()
+          .then(() => {
+            alert("✅ Registro eliminado correctamente");
+            cargarDatos();
+          })
+          .catch(err => alert("❌ Error al eliminar: " + err));
+      }
+    };
+
+    // 🔹 Cargar al iniciar
+    cargarDatos();
   </script>
 </body>
 </html>
+
+      
