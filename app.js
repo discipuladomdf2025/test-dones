@@ -45,32 +45,42 @@ function enviarResultados(nombre, correo, telefono, resultados) {
   const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
 
   const paramsAdmin = {
-    nombre: nombre,
-    correo: correo,
-    telefono: telefono,
+    nombre,
+    correo,
+    telefono,
     resultados: cuerpo
   };
 
   const paramsUsuario = {
-    nombre: nombre,
-    correo: correo,
+    nombre,
+    correo,
     resultados: cuerpo
   };
 
- emailjs.send("service_m7i35iw", "template_3hymrgx", paramsAdmin)
-  .then(() => {
-    // Guarda los resultados en Google Sheets
-    guardarEnGoogleSheets(nombre, correo, telefono, resultados);
-    // Guarda los resultados en localStorage antes de redirigir
-    localStorage.setItem("ultimo_resultado", JSON.stringify({ resultados: cuerpo }));
-    // Redirige a la nueva página
-    window.location.href = "gracias.html";
-  })
-  .catch(error => {
-    console.error("❌ Error completo:", error);
-    alert("❌ Error al enviar: " + JSON.stringify(error));
-  });
+  // Enviar al admin primero
+  emailjs.send("service_m7i35iw", "template_3hymrgx", paramsAdmin)
+    .then(() => {
+      console.log("✅ Correo enviado al admin");
+
+      // Luego al usuario
+      return emailjs.send("service_m7i35iw", "template_kh5rb49", paramsUsuario);
+    })
+    .then(() => {
+      console.log("✅ Correo enviado al usuario");
+
+      // Guardar en Sheets
+      guardarEnGoogleSheets(nombre, correo, telefono, resultados);
+
+      // Guardar resultados y redirigir
+      localStorage.setItem("ultimo_resultado", JSON.stringify({ resultados: cuerpo }));
+      window.location.href = "gracias.html";
+    })
+    .catch(error => {
+      console.error("❌ Error al enviar correos:", error);
+      alert("Error al enviar los correos: " + JSON.stringify(error));
+    });
 }
+
 
 
 
@@ -135,6 +145,7 @@ function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
   })
   .catch(err => console.error("❌ Error al guardar en Sheets:", err));
 }
+
 
 
 
