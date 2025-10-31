@@ -66,21 +66,32 @@ function enviarResultados(nombre, correo, telefono, resultados) {
 }
 
 function guardarEnFirebase(nombre, correo, telefono, resultados) {
-  const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
+  try {
+    if (!firebase.apps.length) {
+      console.error("❌ Firebase no está inicializado");
+      return;
+    }
 
-  const registro = {
-    nombre,
-    correo,
-    telefono,
-    resultados: cuerpo,
-    fecha: new Date().toISOString()
-  };
+    const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
 
-  const nuevoId = Date.now(); // ID único
-  firebase.database().ref("respuestas/" + nuevoId).set(registro)
-    .then(() => console.log("✅ Datos guardados en Firebase"))
-    .catch(err => console.error("❌ Error al guardar en Firebase:", err));
+    const registro = {
+      nombre,
+      correo,
+      telefono,
+      resultados: cuerpo,
+      fecha: new Date().toISOString()
+    };
+
+    const nuevoId = Date.now();
+    firebase.database().ref("respuestas/" + nuevoId).set(registro)
+      .then(() => console.log("✅ Datos guardados en Firebase"))
+      .catch(err => console.error("❌ Error al guardar en Firebase:", err));
+
+  } catch (error) {
+    console.error("🔥 Error general en guardarEnFirebase:", error);
+  }
 }
+
 
 
 
@@ -121,6 +132,7 @@ enviarResultados(nombre, correo, telefono, resultados);
 }
 
 iniciar();
+
 
 
 
