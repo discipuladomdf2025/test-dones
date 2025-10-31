@@ -44,42 +44,45 @@ function mostrarResultados(resultados) {
 function enviarResultados(nombre, correo, telefono, resultados) {
   const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
 
-  const paramsAdmin = {
-    nombre,
-    correo,
-    telefono,
-    resultados: cuerpo
-  };
+  const paramsAdmin = { nombre, correo, telefono, resultados: cuerpo };
+  const paramsUsuario = { nombre, correo, resultados: cuerpo };
 
-  const paramsUsuario = {
-    nombre,
-    correo,
-    resultados: cuerpo
-  };
-
-  // Enviar al admin primero
+  // 🔹 Enviar correos por separado, sin bloquear
   emailjs.send("service_m7i35iw", "template_3hymrgx", paramsAdmin)
-    .then(() => {
-      console.log("✅ Correo enviado al admin");
+    .then(() => console.log("✅ Correo enviado al admin"))
+    .catch(err => console.error("❌ Error al enviar al admin:", err));
 
-      // Luego al usuario
-      return emailjs.send("service_m7i35iw", "template_kh5rb49", paramsUsuario);
-    })
-    .then(() => {
-      console.log("✅ Correo enviado al usuario");
+  emailjs.send("service_m7i35iw", "template_kh5rb49", paramsUsuario)
+    .then(() => console.log("✅ Correo enviado al usuario"))
+    .catch(err => console.error("❌ Error al enviar al usuario:", err));
 
-      // Guardar en Sheets
-      guardarEnGoogleSheets(nombre, correo, telefono, resultados);
+  // 🔹 Enviar resultados a Google Sheets (flujo independiente)
+  guardarEnGoogleSheets(nombre, correo, telefono, resultados);
 
-      // Guardar resultados y redirigir
-      localStorage.setItem("ultimo_resultado", JSON.stringify({ resultados: cuerpo }));
-      window.location.href = "gracias.html";
-    })
-    .catch(error => {
-      console.error("❌ Error al enviar correos:", error);
-      alert("Error al enviar los correos: " + JSON.stringify(error));
-    });
+  // 🔹 Guardar localmente y redirigir sin depender de los correos ni Sheets
+  const cuerpoTexto = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
+  localStorage.setItem("ultimo_resultado", JSON.stringify({ resultados: cuerpoTexto }));
+  window.location.href = "gracias.html";
 }
+
+function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
+  const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
+
+  // 🔹 Usamos URLSearchParams (sin preflight, seguro para móvil/PC)
+  const data = new URLSearchParams();
+  data.append("nombre", nombre);
+  data.append("correo", correo);
+  data.append("telefono", telefono);
+  data.append("resultados", cuerpo);
+
+  fetch("https://script.google.com/macros/s/AKfycbxKhZKBqoWbx-NI6wDn2pNTQJ56voZJaGDAqbELx6xaX2gH_SoMRcKU4aT-lFD0ZLaCQA/exec", {
+    method: "POST",
+    body: data
+  })
+  .then(() => console.log("✅ Datos enviados al Google Sheet (independiente)"))
+  .catch(err => console.error("❌ Error al guardar en Sheets:", err));
+}
+
 
 
 
@@ -121,30 +124,6 @@ enviarResultados(nombre, correo, telefono, resultados);
 }
 
 iniciar();
-
-function guardarEnGoogleSheets(nombre, correo, telefono, resultados) {
-  const cuerpo = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
-
-  fetch("https://script.google.com/macros/s/AKfycbzV_kpDZ7AhWWaj72PIzWScv4nBzK6FfusJGwHC61rdNcGSmowiWisvA-gm34fYuWIQvQ/exec", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" }, // 🔹 importante: JSON
-    body: JSON.stringify({
-      nombre,
-      correo,
-      telefono,
-      resultados: cuerpo
-    })
-  })
-  .then(res => res.text())
-  .then(txt => {
-    if (txt === "OK") {
-      console.log("✅ Resultados guardados correctamente en Google Sheets");
-    } else {
-      console.error("⚠️ Respuesta inesperada del script:", txt);
-    }
-  })
-  .catch(err => console.error("❌ Error al guardar en Sheets:", err));
-}
 
 
 
