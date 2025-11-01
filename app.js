@@ -87,46 +87,41 @@ async function iniciar() {
   // Renderizar preguntas dentro de #test-form
   const testForm = document.getElementById("test-form");
   testForm.innerHTML = data.preguntas.map(crearHTMLPregunta).join("");
+  
+  // ✅ Escuchar envío del formulario (funciona en PC y móvil sin duplicar)
+  testForm.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-  // El botón está fuera de los forms → usar click del botón
-  const btn = document.getElementById("submit");
+    const nombre = document.getElementById("nombre").value.trim();
+    const correo = document.getElementById("correo").value.trim();
+    const telefono = document.getElementById("telefono").value.trim();
 
-let enviando = false; // ✅ evita doble clic o doble envío
+    // Validaciones
+    if (!nombre || !correo || !telefono) {
+      alert("⚠️ Por favor, completa tu nombre, correo y teléfono antes de enviar el test.");
+      return;
+    }
 
-btn.addEventListener("click", (e) => {
-  e.preventDefault();
+    const correoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!correoValido.test(correo)) {
+      alert("⚠️ Por favor, ingresa un correo electrónico válido.");
+      return;
+    }
 
-  if (enviando) return; // si ya se está enviando, no repite
-  enviando = true;
+    const formData = new FormData(testForm);
+    const resultados = calcularResultados(data, formData);
 
-  const nombre = document.getElementById("nombre").value.trim();
-  const correo = document.getElementById("correo").value.trim();
-  const telefono = document.getElementById("telefono").value.trim();
+    // ✅ Enviar una sola vez
+    testForm.querySelector("button[type='submit']").disabled = true;
+    enviarResultados(nombre, correo, telefono, resultados);
 
-  if (!nombre || !correo || !telefono) {
-    alert("⚠️ Por favor, completa tu nombre, correo y teléfono antes de enviar el test.");
-    enviando = false;
-    return;
-  }
+    // Rehabilitar botón tras 3s por si hay error
+    setTimeout(() => testForm.querySelector("button[type='submit']").disabled = false, 3000);
+  });
 
-  const correoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!correoValido.test(correo)) {
-    alert("⚠️ Por favor, ingresa un correo electrónico válido.");
-    enviando = false;
-    return;
-  }
-
-  const formData = new FormData(testForm);
-  const resultados = calcularResultados(data, formData);
-
-  // 🔹 Enviar resultados
-  enviarResultados(nombre, correo, telefono, resultados);
-
-  // 🔹 Evitar doble envío por toque prolongado en móvil
-  setTimeout(() => enviando = false, 4000);
-});
 }
 
 iniciar();
+
 
 
