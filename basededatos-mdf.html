@@ -5,118 +5,129 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Resultados - Mundo de Fe Costa Rica</title>
 
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 
   <style>
-  body {
-    font-family: "Poppins", Arial, sans-serif;
-    margin: 0;
-    padding: 40px;
-    background: linear-gradient(180deg, #004a99, #00264d);
-    color: #fff;
-    text-align: center;
-    min-height: 100vh;
-  }
+    body {
+      font-family: "Poppins", Arial, sans-serif;
+      margin: 0;
+      padding: 40px;
+      background: linear-gradient(180deg, #004a99, #00264d);
+      color: #fff;
+      text-align: center;
+      min-height: 100vh;
+    }
 
-  h1 {
-    margin-bottom: 30px;
-    font-size: 2rem;
-    color: #ffffff;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-  }
+    h1 {
+      margin-bottom: 30px;
+      font-size: 2rem;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
 
-  #lista {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
+    #lista {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
 
-  .registro {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 15px;
-    width: 92%;
-    max-width: 750px;
-    padding: 25px 30px;
-    text-align: left;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    position: relative;
-    transition: all 0.25s ease;
-  }
+    .registro {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 15px;
+      width: 92%;
+      max-width: 750px;
+      padding: 15px 25px;
+      text-align: left;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      transition: all 0.25s ease;
+      position: relative;
+      cursor: pointer;
+    }
 
-  .registro:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
-    background: rgba(255, 255, 255, 0.12);
-  }
+    .registro:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-2px);
+    }
 
-  .registro h3 {
-    margin-top: 0;
-    color: #a3d0ff;
-    font-size: 1.3rem;
-  }
+    .registro h3 {
+      margin: 0;
+      color: #a3d0ff;
+      font-size: 1.2rem;
+    }
 
-  .registro p {
-    margin: 8px 0;
-    color: #eaf4ff;
-    line-height: 1.5;
-  }
+    .contenido {
+      display: none; /* Oculto por defecto */
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      animation: fadeIn 0.3s ease-in-out;
+    }
 
-  .kv {
-    margin-top: 10px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    background: rgba(0,0,0,0.25);
-  }
+    .contenido.mostrar {
+      display: block;
+    }
 
-  .kv p {
-    margin: 6px 0;
-    font-size: 0.95rem;
-    color: #cfe8ff;
-  }
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      background: rgba(0, 0, 0, 0.25);
+      color: #cfe8ff;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      margin-top: 10px;
+    }
 
-  .btn-borrar {
-    background: linear-gradient(135deg, #ff4d4d, #b30000);
-    border: none;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 10px;
-    cursor: pointer;
-    position: absolute;
-    top: 18px;
-    right: 20px;
-    transition: all 0.3s ease;
-    font-weight: 600;
-  }
+    .btn-borrar {
+      background: linear-gradient(135deg, #ff4d4d, #b30000);
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      position: absolute;
+      top: 12px;
+      right: 15px;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
 
-  .btn-borrar:hover {
-    background: linear-gradient(135deg, #ff1a1a, #800000);
-    transform: scale(1.05);
-  }
+    .btn-borrar:hover {
+      background: linear-gradient(135deg, #ff1a1a, #800000);
+      transform: scale(1.05);
+    }
 
-  footer {
-    margin-top: 40px;
-    color: #cce0ff;
-    font-size: 0.9rem;
-    opacity: 0.8;
-  }
+    footer {
+      margin-top: 40px;
+      color: #cce0ff;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
 
-  @media (max-width: 600px) {
-    body { padding: 20px; }
-    .registro { width: 100%; padding: 18px; font-size: 0.95rem; }
-    .btn-borrar { top: 10px; right: 10px; padding: 6px 10px; font-size: 0.8rem; }
-  }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px; }
+      .registro { width: 100%; font-size: 0.95rem; }
+    }
   </style>
 </head>
 
 <body>
   <h1>📋 Resultados de Discipulados MDF</h1>
-  <p style="color:#a3d0ff;">Aquí puedes ver o eliminar los resultados registrados.</p>
+  <p style="color:#a3d0ff;">Toca un nombre para ver u ocultar los detalles.</p>
   <div id="lista"></div>
 
   <script>
+    // ✅ Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyAc05jP3k8_Ik5qnwIrqSbtJBT9FpoXtAM",
       authDomain: "discipuladomdf.firebaseapp.com",
@@ -131,20 +142,10 @@
     const db = firebase.database();
     const lista = document.getElementById("lista");
 
-    function renderResultadosKV(resultados) {
-      if (!resultados || typeof resultados !== "object") {
-        return `<div class="kv"><p>Sin resultados</p></div>`;
-      }
-      const entries = Object.entries(resultados).sort((a,b) => b[1]-a[1]);
-      return `
-        <div class="kv">
-          ${entries.map(([k,v]) => `<p><strong style="color:#a3d0ff;">${k}:</strong> ${v}</p>`).join("")}
-        </div>
-      `;
-    }
-
+    // 🔹 Cargar datos
     function cargarDatos() {
       const ref = db.ref("respuestas");
+
       ref.on("value", (snapshot) => {
         lista.innerHTML = "";
         const data = snapshot.val();
@@ -160,31 +161,43 @@
         registros.forEach(([id, r]) => {
           const div = document.createElement("div");
           div.classList.add("registro");
+
           div.innerHTML = `
-            <button class="btn-borrar" onclick="borrarRegistro('${id}')">🗑 Borrar</button>
             <h3>🧍 ${r.nombre || 'Sin nombre'}</h3>
-            <p>📧 <strong>${r.correo || 'Sin correo'}</strong></p>
-            <p>📱 ${r.telefono || 'Sin teléfono'}</p>
-            <p>🕒 ${r.fecha ? new Date(r.fecha).toLocaleString() : 'Sin fecha'}</p>
-            <p>💬 <strong>Resultados:</strong></p>
-            ${renderResultadosKV(r.resultados)}
+            <button class="btn-borrar" onclick="borrarRegistro('${id}')">🗑</button>
+            <div class="contenido">
+              <p>📧 <strong>${r.correo || 'Sin correo'}</strong></p>
+              <p>📱 ${r.telefono || 'Sin teléfono'}</p>
+              <p>🕒 ${r.fecha ? new Date(r.fecha).toLocaleString() : 'Sin fecha'}</p>
+              <p>💬 <strong>Resultados:</strong></p>
+              <pre>${typeof r.resultados === "object" ? 
+                Object.entries(r.resultados)
+                .map(([k,v]) => `${k}: ${v}`).join('\n') 
+                : r.resultados || 'Sin resultados'}</pre>
+            </div>
           `;
+
+          // Agregar evento de click para mostrar/ocultar
+          div.querySelector("h3").addEventListener("click", () => {
+            const contenido = div.querySelector(".contenido");
+            contenido.classList.toggle("mostrar");
+          });
+
           lista.appendChild(div);
         });
-      }, (error) => {
-        console.error("❌ Error al leer Firebase:", error);
-        lista.innerHTML = "<p>Error al cargar los resultados.</p>";
       });
     }
 
+    // 🔹 Eliminar registro
     window.borrarRegistro = function (id) {
       if (confirm("¿Seguro que deseas borrar este registro?")) {
         db.ref("respuestas/" + id).remove()
-          .then(() => { alert("✅ Registro eliminado correctamente"); })
+          .then(() => alert("✅ Registro eliminado correctamente"))
           .catch(err => alert("❌ Error al eliminar: " + err));
       }
     };
 
+    // 🔹 Iniciar
     cargarDatos();
   </script>
 </body>
