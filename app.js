@@ -107,7 +107,13 @@ async function iniciar() {
       return;
     }
 
-    const formData = new FormData(testForm);
+    const formData = new FormData(document.getElementById("info-form"));
+const respuestas = document.querySelectorAll(".question input[type='radio']:checked");
+
+// Simular que las preguntas también van en el formData
+respuestas.forEach(input => {
+  formData.append(input.name, input.value);
+});
     const resultados = calcularResultados(data, formData);
 
     // ✅ Enviar una sola vez
@@ -121,6 +127,7 @@ async function iniciar() {
 }
 
 iniciar();
+
 
 
 
