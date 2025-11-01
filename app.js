@@ -87,48 +87,45 @@ async function iniciar() {
   preguntasDiv.innerHTML = data.preguntas.map(crearHTMLPregunta).join("");
 
   
-  // ✅ Escuchar envío del formulario (funciona en PC y móvil sin duplicar)
-  testForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+// ✅ Escuchar click en el botón "Ver y Enviar Resultados"
+document.getElementById("submit").addEventListener("click", (e) => {
+  e.preventDefault();
 
-    const nombre = document.getElementById("nombre").value.trim();
-    const correo = document.getElementById("correo").value.trim();
-    const telefono = document.getElementById("telefono").value.trim();
+  const nombre = document.getElementById("nombre").value.trim();
+  const correo = document.getElementById("correo").value.trim();
+  const telefono = document.getElementById("telefono").value.trim();
 
-    // Validaciones
-    if (!nombre || !correo || !telefono) {
-      alert("⚠️ Por favor, completa tu nombre, correo y teléfono antes de enviar el test.");
-      return;
-    }
+  // Validaciones
+  if (!nombre || !correo || !telefono) {
+    alert("⚠️ Por favor, completa tu nombre, correo y teléfono antes de enviar el test.");
+    return;
+  }
 
-    const correoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!correoValido.test(correo)) {
-      alert("⚠️ Por favor, ingresa un correo electrónico válido.");
-      return;
-    }
+  const correoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!correoValido.test(correo)) {
+    alert("⚠️ Por favor, ingresa un correo electrónico válido.");
+    return;
+  }
 
-    const formData = new FormData(document.getElementById("info-form"));
-const respuestas = document.querySelectorAll(".question input[type='radio']:checked");
+  const formData = new FormData(document.getElementById("info-form"));
+  const respuestas = document.querySelectorAll(".question input[type='radio']:checked");
 
-// Simular que las preguntas también van en el formData
-respuestas.forEach(input => {
-  formData.append(input.name, input.value);
-});
-    const resultados = calcularResultados(data, formData);
-
-    // ✅ Enviar una sola vez
-    testForm.querySelector("button[type='submit']").disabled = true;
-    enviarResultados(nombre, correo, telefono, resultados);
-
-    // Rehabilitar botón tras 3s por si hay error
-    setTimeout(() => testForm.querySelector("button[type='submit']").disabled = false, 3000);
+  // Agregar respuestas al formData
+  respuestas.forEach(input => {
+    formData.append(input.name, input.value);
   });
 
+  const resultados = calcularResultados(data, formData);
+
+  // ✅ Enviar una sola vez
+  const boton = document.getElementById("submit");
+  boton.disabled = true;
+  enviarResultados(nombre, correo, telefono, resultados);
+
+  // Rehabilitar botón tras 3s
+  setTimeout(() => boton.disabled = false, 3000);
+});
 }
-
 iniciar();
-
-
-
 
 
