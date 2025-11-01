@@ -10,7 +10,7 @@
   <div class="container">
     <header>
       <img src="logo.jpg" alt="Logo Mundo de Fe Costa Rica" />
-      <h1> Test de Dones Espirituales</h1>
+      <h1>Test de Dones Espirituales</h1>
     </header>
 
     <p>Lee cada afirmación y marca el número que mejor te describa:</p>
@@ -20,7 +20,7 @@
       <li>2 — Me describe mucho</li>
     </ul>
 
-    <!-- info-form (se mantiene separado y arriba de las preguntas) -->
+    <!-- ✅ Formulario de información -->
     <form id="info-form">
       <label>Nombre:</label>
       <input type="text" id="nombre" name="nombre" required>
@@ -34,13 +34,11 @@
 
     <hr>
 
-    <!-- test-form (solo preguntas) -->
-    <form id="test-form">
-      <div id="preguntas"></div>
-      <button type="submit" id="submit">Ver y Enviar Resultados</button>
-    </form>
+    <!-- ✅ Preguntas dinámicas -->
+    <div id="preguntas"></div>
 
-    
+    <!-- ✅ Botón visible -->
+    <button id="submit">Ver y Enviar Resultados</button>
 
     <div id="results" class="results"></div>
 
@@ -49,7 +47,7 @@
     </footer>
   </div>
 
-  <!-- EmailJS -->
+  <!-- ✅ Librerías EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
     (function(){
@@ -58,7 +56,7 @@
     })();
   </script>
 
-  <!-- Firebase (compat) -->
+  <!-- ✅ Librerías Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script>
@@ -75,12 +73,7 @@
     const db = firebase.database();
   </script>
 
+  <!-- ✅ Tu código principal -->
   <script src="app.js"></script>
-
-
 </body>
 </html>
-
-
-
-
