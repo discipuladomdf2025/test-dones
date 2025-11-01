@@ -72,5 +72,47 @@
   </script>
 
   <script src="app.js"></script>
+  <!-- 🔹 Librerías -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+
+  // ✅ Inicializar EmailJS
+  try {
+    emailjs.init("13cKDZbvcTVL3V3xe");
+    console.log("✅ EmailJS inicializado correctamente");
+  } catch (e) {
+    console.error("❌ Error al inicializar EmailJS:", e);
+  }
+
+  // ✅ Inicializar Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyAc05jP3k8_Ik5qnwIrqSbtJBT9FpoXtAM",
+    authDomain: "discipuladomdf.firebaseapp.com",
+    databaseURL: "https://discipuladomdf-default-rtdb.firebaseio.com",
+    projectId: "discipuladomdf",
+    storageBucket: "discipuladomdf.firebasestorage.app",
+    messagingSenderId: "21094891349",
+    appId: "1:21094891349:web:be1a4483b7737c70cb39dc"
+  };
+
+  try {
+    firebase.initializeApp(firebaseConfig);
+    console.log("✅ Firebase inicializado correctamente");
+  } catch (e) {
+    console.error("❌ Error al inicializar Firebase:", e);
+  }
+
+  // Esperar carga completa de app.js (que usa Firebase)
+  const script = document.createElement("script");
+  script.src = "app.js?v=" + Date.now(); // prevenir cache
+  document.body.appendChild(script);
+});
+</script>
+
 </body>
 </html>
+
