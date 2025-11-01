@@ -126,6 +126,10 @@ document.getElementById("submit").addEventListener("click", (e) => {
   setTimeout(() => boton.disabled = false, 3000);
 });
 }
-iniciar();
+document.addEventListener("DOMContentLoaded", () => {
+  iniciar();
+});
+
+
 
 
