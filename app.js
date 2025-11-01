@@ -83,10 +83,9 @@ function guardarEnFirebase(nombre, correo, telefono, resultados) {
 
 async function iniciar() {
   const data = await loadPreguntas();
+  const preguntasDiv = document.getElementById("preguntas");
+  preguntasDiv.innerHTML = data.preguntas.map(crearHTMLPregunta).join("");
 
-  // Renderizar preguntas dentro de #test-form
-  const testForm = document.getElementById("test-form");
-  testForm.innerHTML = data.preguntas.map(crearHTMLPregunta).join("");
   
   // ✅ Escuchar envío del formulario (funciona en PC y móvil sin duplicar)
   testForm.addEventListener("submit", (e) => {
@@ -122,6 +121,7 @@ async function iniciar() {
 }
 
 iniciar();
+
 
 
 
