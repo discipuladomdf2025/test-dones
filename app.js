@@ -37,24 +37,43 @@ function enviarResultados(nombre, correo, telefono, resultados) {
   const paramsAdmin = { nombre, correo, telefono, resultados: cuerpo };
   const paramsUsuario = { nombre, correo, resultados: cuerpo };
 
-  // EmailJS (admin)
-  emailjs.send("service_m7i35iw", "template_3hymrgx", paramsAdmin)
-    .then(() => console.log("✅ Correo enviado al admin"))
-    .catch(err => console.error("❌ Error al enviar al admin:", err));
+  // 🔹 Primero guardamos en Firebase
+  const registro = {
+    nombre,
+    correo,
+    telefono,
+    fecha: new Date().toISOString(),
+    resultados: {}
+  };
 
-  // EmailJS (usuario)
-  emailjs.send("service_m7i35iw", "template_kh5rb49", paramsUsuario)
-    .then(() => console.log("✅ Correo enviado al usuario"))
-    .catch(err => console.error("❌ Error al enviar al usuario:", err));
+  resultados.forEach(r => {
+    const claveSegura = r.nombre.replace(/[.#$/[\]]/g, "_");
+    registro.resultados[claveSegura] = r.total;
+  });
 
-  // Firebase
-  guardarEnFirebase(nombre, correo, telefono, resultados);
-
-  // LocalStorage y redirección
-  const cuerpoTexto = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
-  localStorage.setItem("ultimo_resultado", JSON.stringify({ resultados: cuerpoTexto }));
-  window.location.href = "gracias.html";
+  // ⬇️ Guardar en Firebase y luego asegurarnos de que los correos terminen
+  firebase.database().ref("respuestas").push(registro)
+    .then(() => {
+      console.log("✅ Datos guardados en Firebase");
+      // Esperar envíos de ambos correos ANTES de redirigir
+      return Promise.all([
+        emailjs.send("service_m7i35iw", "template_3hymrgx", paramsAdmin),
+        emailjs.send("service_m7i35iw", "template_kh5rb49", paramsUsuario)
+      ]);
+    })
+    .then(() => {
+      console.log("✅ Correos enviados (admin + usuario)");
+      // Ahora sí redirigir cuando todo se completó
+      const cuerpoTexto = resultados.map(r => `${r.nombre}: ${r.total}`).join("\n");
+      localStorage.setItem("ultimo_resultado", JSON.stringify({ resultados: cuerpoTexto }));
+      window.location.href = "gracias.html";
+    })
+    .catch(err => {
+      console.error("❌ Error durante el proceso:", err);
+      alert("⚠️ Hubo un problema al enviar los correos. Tus datos se guardaron correctamente.");
+    });
 }
+
 
 function guardarEnFirebase(nombre, correo, telefono, resultados) {
   try {
@@ -129,6 +148,7 @@ document.getElementById("submit").addEventListener("click", (e) => {
 document.addEventListener("DOMContentLoaded", () => {
   iniciar();
 });
+
 
 
 
