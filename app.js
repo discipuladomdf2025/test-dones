@@ -66,8 +66,10 @@ function guardarEnFirebase(nombre, correo, telefono, resultados) {
       resultados: {}
     };
 
+    // 🔹 Reemplazar caracteres prohibidos en las claves
     resultados.forEach(r => {
-      registro.resultados[r.nombre] = r.total;
+      const claveSegura = r.nombre.replace(/[.#$/[\]]/g, "_");
+      registro.resultados[claveSegura] = r.total;
     });
 
     firebase.database().ref("respuestas").push(registro)
@@ -114,3 +116,4 @@ async function iniciar() {
 }
 
 iniciar();
+
