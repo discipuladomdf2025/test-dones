@@ -122,6 +122,17 @@
 </head>
 
 <body>
+  <script>
+    const ACCESS_CODE = "1234"; // ← Cambiá el código aquí
+
+    const userCode = prompt("Ingrese el código de acceso:");
+
+    if (userCode !== ACCESS_CODE) {
+      alert("Código incorrecto. Acceso denegado.");
+      window.location.href = "https://google.com";
+    }
+  </script>
+
   <h1>📋 Resultados de Discipulados MDF</h1>
   <p style="color:#a3d0ff;">Toca un nombre para ver u ocultar los detalles.</p>
   <div id="lista"></div>
